@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  --include "C:/vivado/2025.2/Vivado/data/rsb/busdef" \
+"../../../../sys_arr_matmul_rev2.srcs/sources_1/new/mat_mul.sv" \
+"../../../../sys_arr_matmul_rev2.srcs/sources_1/new/pe_block.sv" \
+"../../../../sys_arr_matmul_rev2.srcs/sim_1/new/tb_matmul.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
