@@ -1,6 +1,6 @@
 # 2x2 Systolic Array Matrix Multiplier
 
-A 2×2 matrix multiplier implemented as an output-stationary systolic array in SystemVerilog. Each processing element (PE) owns a MAC unit and an accumulator, with operands rippling through the array one hop per cycle via inter-PE registers.
+A 2×2 matrix multiplier implemented as an output-stationary systolic array in SystemVerilog, taken through the full RTL-to-GDSII flow on the SkyWater 130nm PDK via OpenLane. Each processing element (PE) owns a MAC unit and an accumulator, with operands rippling through the array one hop per cycle via inter-PE registers.
 
 ## Architecture
 
@@ -30,11 +30,21 @@ Because operands take one cycle per hop, inputs are fed with a triangular skew s
 
 Total latency is 5 cycles before all four accumulators hold the final result.
 
+## Physical Implementation
+
+Synthesized and placed-and-routed through OpenLane on SKY130 (sky130_fd_sc_hd standard cell library).
+
+- ~388 × 378 µm die
+- 50 MHz target clock, timing closed at typical corner (no setup or hold violations)
+- DRC clean after detailed routing and GDS streamout (Magic + KLayout XOR match)
+- Flow: Yosys synth → OpenROAD floorplan/place/CTS/route → Magic + KLayout signoff
+
 ## Files
 
 - `pe_block.sv` — single PE with MAC and operand-forwarding registers
 - `mat_mul.sv` — 2×2 top-level instantiating four PEs with local wiring
 - `tb_mat_mul.sv` — testbench feeding skewed input streams for four test cases
+- `config.json` — OpenLane flow configuration
 
 ## Elaborated Designs
 
@@ -49,8 +59,6 @@ Total latency is 5 cycles before all four accumulators hold the final result.
 
 <img width="928" height="477" alt="simulation waveform" src="https://github.com/user-attachments/assets/013640bc-b205-4c27-ab0e-d20ecbb429e4" />
 
-## Next Steps
+## Chip GDS in KLayout
 
-- Wrap the skew logic in a feeder FSM so the top level takes raw `matA`/`matB` matrices instead of pre-skewed streams
-- Parameterize array size to NxN with a generate block
-- Pipeline the MAC (register the multiplier output separately from the accumulator) to push fmax
+<img width="866" height="631" alt="GDS layout in KLayout" src="https://github.com/user-attachments/assets/2a635a49-4381-49a3-aafe-a09f17f61349" />
