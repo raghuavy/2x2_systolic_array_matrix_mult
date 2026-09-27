@@ -1,0 +1,7 @@
+# Exclude generated Vivado outputs from GitHub language statistics and default diffs.
+# Preserve authored sources, constraints, project configuration, and the final layout.
+sys_arr_matmul_rev2/*.cache/** linguist-generated=true
+sys_arr_matmul_rev2/*.hw/** linguist-generated=true
+sys_arr_matmul_rev2/*.ip_user_files/** linguist-generated=true
+sys_arr_matmul_rev2/*.runs/** linguist-generated=true
+sys_arr_matmul_rev2/*.sim/** linguist-generated=true
